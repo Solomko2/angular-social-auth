@@ -1,7 +1,18 @@
 # AngularSocial
 
-Install npm i --save ngx-facebook
-`https://zyra.github.io/ngx-facebook/`
+Install
+```
+
+  npm i --save ngx-facebook `https://zyra.github.io/ngx-facebook/`
+```
+
+include scripts to index page
+```
+
+<script type="text/javascript" src="https://connect.facebook.net/en_US/sdk.js"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+```
+
 
 **Settings environment**
 ```
