@@ -16,7 +16,11 @@ socialAuth: {
       authorize: boolean,
       isServer: boolean
     },
-    google: {}
+    google: {
+      client_id: string,
+      cookiepolicy: string,
+      scope: string
+    }
   }
 ```
 
