@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {LinkedinService} from './linkedin.service';
-declare const IN;
+import {Component, OnInit} from '@angular/core';
+import {SocialService} from '../social.service';
 
 @Component({
   selector: 'app-linkedin-auth',
@@ -9,23 +8,17 @@ declare const IN;
 })
 export class LinkedinAuthComponent implements OnInit {
 
-  constructor(private linkedinService: LinkedinService) { }
+  constructor(private socialService: SocialService) {
+  }
 
   ngOnInit() {
 
   }
 
-  loginLD() {
-    IN.User.authorize(() => {
-      IN.API.Raw('/people/~:(id,firstName,lastName,emailAddress)?format=json')
-        .method('GET').result((res) => {
-        console.log(res);
-      });
-    }, this);
-  }
-
-  public getApiKeyFromSdkIN() {
-    return IN.ENV.auth.anonymous_token;
+  loginLI() {
+    this.socialService
+      .linkedinAuth('id,firstName,lastName,emailAddress,num-connections,picture-url')
+      .subscribe(res => console.log(res), err => console.log(err))
   }
 
 }

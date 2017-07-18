@@ -9,7 +9,6 @@ import {
   GoogleAuthComponent,
   LinkedinAuthComponent
 } from './index';
-import { LinkedinService } from './linkedin-auth/linkedin.service';
 
 @NgModule({
   imports: [CommonModule, FacebookModule.forRoot()],
@@ -24,6 +23,6 @@ import { LinkedinService } from './linkedin-auth/linkedin.service';
     LinkedinAuthComponent,
     GoogleAuthComponent
   ],
-  providers: [SocialService, LinkedinService]
+  providers: [SocialService]
 })
 export class AuthSocialModule {}
