@@ -37,7 +37,7 @@ socialAuth: {
 ```
 4. <strong>Import AuthSocialModule into your app's root module</strong>
 ```
-  import { AuthSocialModule } from 'ngx-social-auth';
+  import { AuthSocialModule } from 'ngx-auth-social';
 
   @NgModule({
     ...
