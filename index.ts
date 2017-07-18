@@ -1,3 +1,8 @@
-export * from './linkedin-auth/linkedin-auth.component';
-export * from './google-auth/google-auth.component';
-export * from './facebook-auth/facebook-auth.component';
+// models
+export * from './models';
+
+// providers
+export { SocialService } from './social.service';
+
+// modules
+export { AuthSocialModule } from './auth-social.module';

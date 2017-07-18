@@ -4,24 +4,11 @@ import { CommonModule } from '@angular/common';
 import { SocialService } from './social.service';
 import { FacebookModule } from 'ngx-facebook';
 
-import {
-  FacebookAuthComponent,
-  GoogleAuthComponent,
-  LinkedinAuthComponent
-} from './index';
-
 @NgModule({
   imports: [CommonModule, FacebookModule.forRoot()],
-  declarations: [
-    FacebookAuthComponent,
-    LinkedinAuthComponent,
-    GoogleAuthComponent
-  ],
+  declarations: [],
   exports: [
-    FacebookModule,
-    FacebookAuthComponent,
-    LinkedinAuthComponent,
-    GoogleAuthComponent
+    FacebookModule
   ],
   providers: [SocialService]
 })
