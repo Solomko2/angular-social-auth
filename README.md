@@ -4,16 +4,17 @@
 1. <strong>Install dependency</strong>
 [ngx-facebook-docs](https://zyra.github.io/ngx-facebook/)
 ```
-
-  npm i --save ngx-facebook
+  npm install ngx-facebook
 ```
-
+1. <strong>Install module</strong>
+```
+  npm install ngx-auth-social
+```
 2. <strong>include scripts to index page</strong>
 ```
 <script type="text/javascript" src="https://connect.facebook.net/en_US/sdk.js"></script>
-<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script src="https://apis.google.com/js/platform.js"></script>
 ```
-
 3. <strong>Settings your environment.ts</strong>
 ```
 socialAuth: {
