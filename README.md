@@ -2,21 +2,20 @@
 ## Install, initialization and settings
 
 ### Install module
-<pre>npm install ngx-auth-social</pre>
+``npm install ngx-auth-social``
 
 ### Install dependency
 [ngx-facebook-docs](https://zyra.github.io/ngx-facebook/)
-
-<pre>npm install ngx-facebook</pre>
+``npm install ngx-facebook``
 
 ### include scripts to index page
-<pre>
-  <script type="text/javascript" src="https://connect.facebook.net/en_US/sdk.js"></script>
+```html
+  <script src="https://connect.facebook.net/en_US/sdk.js"></script>
   <script src="https://apis.google.com/js/platform.js"></script>
-</pre>
+```
 
 ### Set up your environment.ts
-<pre>
+```javascript
 socialAuth: {
     facebook: {
       appId: string,
@@ -34,10 +33,10 @@ socialAuth: {
       scope: string
     }
   }
-</pre>
+```
 
 ### Import AuthSocialModule into your app's root module
-<pre>
+```javascript
   import { AuthSocialModule } from 'ngx-auth-social';
 
   @NgModule({
@@ -48,10 +47,10 @@ socialAuth: {
     ...
   })
   export class AppModule { }
-</pre>
+```
 
 ### Inject SocialService and call the init methods (optional): This method must be called in ngAfterViewInit and before using login methods.</strong>
-<pre>
+```javascript
 import { SocialService } from "ngx-auth-social";
 
 constructor(private socialService: SocialService) {}
@@ -73,20 +72,20 @@ constructor(private socialService: SocialService) {}
       () => console.log('linkedin init')
     );
   }
-</pre>
+```
 
 ## Example Usage
 
-<pre>
+```javascript
 @Component(...)
 export class MyComponent {
 
   constructor(private socialService: SocialService) {}
 
 }
-</pre>
+```
 
-<pre>
+```javascript
   linkedinLogin() {
     this.socialService
       .linkedinAuth(
@@ -97,9 +96,9 @@ export class MyComponent {
         err => console.log(err)
       )
   }
-</pre>
+```
 
-<pre>
+```javascript
   facebookLogin() {
     const loginOptions: LoginOptions = {
       scope: 'public_profile,user_friends,email,pages_show_list',
@@ -112,9 +111,9 @@ export class MyComponent {
           err => console.log(err)
         );
   }
-</pre>
+```
 
-<pre>
+```javascript
   googleLogin() {
     this.socialService.googleAuth().subscribe(googleUser => {
       const profile = googleUser.getBasicProfile();
@@ -125,4 +124,4 @@ export class MyComponent {
       console.log('Email: ' + profile.getEmail());
     });
   }
-</pre>
+```
