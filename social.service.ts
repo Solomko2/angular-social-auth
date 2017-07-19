@@ -19,15 +19,15 @@ export class SocialService {
   /**
    * LINKEDIN INIT
    */
-  linkedinInit(initParams: LinkedinInitModel) {
-    this.insertLinkedInScriptElement(initParams);
+  public linkedinInit(initParams: LinkedinInitModel, callback) {
+    this.insertLinkedInScriptElement(initParams, callback);
   }
 
   /**
    * FACEBOOK INIT
    * @param initParams
    */
-  facebookInit(initParams: InitParams) {
+  public facebookInit(initParams: InitParams) {
     this.fb.init(initParams);
   }
 
@@ -97,9 +97,9 @@ export class SocialService {
    * INSERT LINKEDIN SCRIPT TO PAGE
    * @param param: LinkedinInitModel
    */
-  public insertLinkedInScriptElement(param: LinkedinInitModel) {
+  public insertLinkedInScriptElement(param: LinkedinInitModel, callback) {
     if (param.isServer !== true) {
-      this._initializeLibrary(param.initializationCallback);
+      this._initializeLibrary(callback);
       this._writeToDOM(param.apiKey, param.authorize);
     }
   }

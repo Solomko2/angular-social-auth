@@ -1,6 +1,6 @@
 {
   "name": "ngx-auth-social",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "This is a wrapper for the official Linkedin SDK, Google SDK and ngx-facebook plugin.",
   "main": "index.js",
   "scripts": {

@@ -1,21 +1,26 @@
 # AngularSocial
 ## Install, initialization and settings
 
-1. <strong>Install dependency</strong>
+- <strong>Install dependency</strong>
 [ngx-facebook-docs](https://zyra.github.io/ngx-facebook/)
+
 ```
   npm install ngx-facebook
 ```
-1. <strong>Install module</strong>
+
+- <strong>Install module</strong>
+
 ```
   npm install ngx-auth-social
 ```
-2. <strong>include scripts to index page</strong>
+- <strong>include scripts to index page</strong>
+
 ```
 <script type="text/javascript" src="https://connect.facebook.net/en_US/sdk.js"></script>
 <script src="https://apis.google.com/js/platform.js"></script>
 ```
-3. <strong>Settings your environment.ts</strong>
+- <strong>Settings your environment.ts</strong>
+
 ```
 socialAuth: {
     facebook: {
@@ -24,7 +29,6 @@ socialAuth: {
       version: string
     },
     linkedin: {
-      initializationCallback: () => void;
       apiKey: string;
       authorize?: boolean;
       isServer?: boolean;
@@ -36,7 +40,8 @@ socialAuth: {
     }
   }
 ```
-4. <strong>Import AuthSocialModule into your app's root module</strong>
+- <strong>Import AuthSocialModule into your app's root module</strong>
+
 ```
   import { AuthSocialModule } from 'ngx-auth-social';
 
@@ -50,9 +55,12 @@ socialAuth: {
   export class AppModule { }
 ```
 
-5. <strong>Inject SocialService and call the init methods (optional):
+- <strong>Inject SocialService and call the init methods (optional):
 This method must be called in ngAfterViewInit and before using login methods.</strong>
+
 ```
+import { SocialService } from "ngx-auth-social";
+
 constructor(private socialService: SocialService) {}
 
   ngAfterViewInit() {
@@ -68,7 +76,8 @@ constructor(private socialService: SocialService) {}
 
     //init linkedin
     this.socialService.linkedinInit(
-      new LinkedinInitModel(environment.socialAuth.linkedin)
+      new LinkedinInitModel(environment.socialAuth.linkedin),
+      () => console.log('linkedin init')
     );
   }
 ```
