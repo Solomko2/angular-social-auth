@@ -9,7 +9,6 @@ declare const IN: any;
 
 @Injectable()
 export class SocialService {
-  public auth2: any;
 
   constructor(
     private zone: NgZone,
@@ -36,7 +35,7 @@ export class SocialService {
    */
   public googleInit(initParams: GoogleInitModel) {
     gapi.load('auth2', () => {
-      this.auth2 = gapi.auth2.init(initParams);
+      gapi.auth2.init(initParams);
     });
   }
 
@@ -44,9 +43,9 @@ export class SocialService {
    * GOOGLE SIGN-IN
    * @param element
    */
-  public googleAuth(element: HTMLElement): Observable<any> {
+  public googleAuth(): Observable<any> {
     return Observable.create(observer => {
-      this.auth2.attachClickHandler(element, {},
+      gapi.auth2.getAuthInstance().signIn().then(
         (googleUser) => {
           observer.next(googleUser);
           observer.complete();

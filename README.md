@@ -122,8 +122,8 @@ export class MyComponent {
 ```
 
 ```  
-  googleLogin(el: HTMLElement) {
-    this.socialService.googleAuth(el).subscribe(googleUser => {
+  googleLogin() {
+    this.socialService.googleAuth().subscribe(googleUser => {
       const profile = googleUser.getBasicProfile();
       console.log('Token || ' + googleUser.getAuthResponse().id_token);
       console.log('ID: ' + profile.getId());
