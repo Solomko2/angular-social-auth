@@ -1,8 +1,10 @@
-// models
-export * from './models';
-
 // providers
-export { SocialService } from './social.service';
+export * from './social.service';
 
 // modules
-export { AuthSocialModule } from './auth-social.module';
+export * from './auth-social.module';
+
+// components
+export * from './linkedin-link/linkedin-link.component';
+export * from './google-link/google-link.component';
+export * from './facebook-link/facebook-link.component';

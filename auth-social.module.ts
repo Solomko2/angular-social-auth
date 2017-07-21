@@ -1,14 +1,27 @@
 import { NgModule } from '@angular/core';
-
-import { CommonModule } from '@angular/common';
+import {HttpModule} from '@angular/http';
 import { SocialService } from './social.service';
-import { FacebookModule } from 'ngx-facebook';
+
+import {
+  FacebookLinkComponent,
+  GoogleLinkComponent,
+  LinkedinLinkComponent
+} from './index';
+
 
 @NgModule({
-  imports: [CommonModule, FacebookModule.forRoot()],
-  declarations: [],
+  imports: [
+    HttpModule
+  ],
+  declarations: [
+    FacebookLinkComponent,
+    GoogleLinkComponent,
+    LinkedinLinkComponent
+  ],
   exports: [
-    FacebookModule
+    FacebookLinkComponent,
+    GoogleLinkComponent,
+    LinkedinLinkComponent
   ],
   providers: [SocialService]
 })

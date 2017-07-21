@@ -1,129 +1,86 @@
-import {Injectable, NgZone} from '@angular/core';
+import {Injectable} from '@angular/core';
+import {Http} from '@angular/http';
+import { Location } from '@angular/common';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
-import {FacebookService, InitParams, LoginOptions, LoginResponse} from 'ngx-facebook';
-import {GoogleInitModel, LinkedinInitModel} from './models';
+import {Subject} from 'rxjs/Subject';
+import 'rxjs/add/operator/distinctUntilChanged';
+import {ITokenParams} from './models/ITokenParams';
 
-declare const gapi: any;
-declare const IN: any;
+class TokenParams {
+  code: any;
+  clientId: any;
+  redirectURI: any;
+  authEndpoint: any;
+
+  constructor(source: ITokenParams, code: any) {
+    this.code = code;
+    this.clientId = source.clientId;
+    this.redirectURI = source.redirectURI;
+    this.authEndpoint = source.authEndpoint;
+  }
+}
 
 @Injectable()
 export class SocialService {
+  private code: string;
+
+  /**
+   * emit data user
+   * @type {Subject}
+   */
+  private socialSubject = new Subject();
+  public socialEventToken = this.socialSubject.asObservable().distinctUntilChanged();
 
   constructor(
-    private zone: NgZone,
-    private fb: FacebookService
-  ) {}
+    private location: Location,
+    private _http: Http
+  ) {
+    const params = new URLSearchParams(this.location.path(false).split('?')[1]);
+    this.code = params.get('code');
+    const config = JSON.parse(localStorage.getItem('authConfig'));
+    const provider = localStorage.getItem('provider');
 
-  /**
-   * LINKEDIN INIT
-   */
-  public linkedinInit(initParams: LinkedinInitModel, callback) {
-    this.insertLinkedInScriptElement(initParams, callback);
-  }
-
-  /**
-   * FACEBOOK INIT
-   * @param initParams
-   */
-  public facebookInit(initParams: InitParams) {
-    this.fb.init(initParams);
-  }
-
-  /**
-   * GOOGLE INIT
-   */
-  public googleInit(initParams: GoogleInitModel) {
-    gapi.load('auth2', () => {
-      gapi.auth2.init(initParams);
-    });
-  }
-
-  /**
-   * GOOGLE SIGN-IN
-   * @param element
-   */
-  public googleAuth(): Observable<any> {
-    return Observable.create(observer => {
-      gapi.auth2.getAuthInstance().signIn().then(
-        (googleUser) => {
-          observer.next(googleUser);
-          observer.complete();
-        }, (error) => {
-          observer.next(error);
-          observer.complete();
-        });
-    });
-  }
-
-  /**
-   * LINKEDIN SIGN-IN
-   */
-  public linkedinAuth(scope: string): Observable<any> {
-    return Observable.create(observer => {
-      IN.User.authorize(() => {
-        IN.API.Raw(`/people/~:(${scope})?format=json`)
-          .method('GET')
-          .result((res) => {
-            observer.next(res);
-            observer.complete();
-          }).error((err) => {
-          observer.next(err);
-          observer.complete();
-        });
-      }, this);
-    });
-  }
-
-  /**
-   * FACEBOOK SIGN-IN
-   */
-  facebookAuth(loginOptions?: LoginOptions): Observable<any> {
-    return Observable.create(observer => {
-      this.fb.login(loginOptions)
-        .then((res: LoginResponse) => {
-          observer.next(res);
-          observer.complete();
-        }, err => {
-          observer.next(err);
-          observer.complete();
-        })
-    });
-
-  }
-
-  /**
-   * INSERT LINKEDIN SCRIPT TO PAGE
-   * @param param: LinkedinInitModel
-   */
-  public insertLinkedInScriptElement(param: LinkedinInitModel, callback) {
-    if (param.isServer !== true) {
-      this._initializeLibrary(callback);
-      this._writeToDOM(param.apiKey, param.authorize);
+    /**
+     * if code not empty send config to backend and emit response
+     */
+    if (this.code) {
+      this.sendCodeToServer(new TokenParams(config, this.code)).subscribe(res => {
+        this.socialSubject.next({provider: provider, payload: res})
+      },
+        err => console.warn(err)
+      );
     }
   }
 
-  private _initializeLibrary(initializationCallback: () => void) {
-    window['linkedInStateChangeRef'] = () => {
-      this.zone.run(() => {
-        if (initializationCallback) {
-          initializationCallback();
-        }
-      });
-    };
+  /**
+   * link auth social
+   * @param provider {string}
+   * @param config {any}
+   */
+  public authLink(provider: string, config: any): void {
+
+    localStorage.setItem('authConfig', JSON.stringify(config));
+    localStorage.setItem('provider', provider);
+
+    if (provider === 'linkedin') {
+      window.location.href = 'https://www.linkedin.com/oauth/v2/authorization?client_id=' +
+        config.clientId + '&redirect_uri=' +
+        config.redirectURI + '&response_type=code';
+    }
+    if (provider === 'facebook') {
+      window.location.href = 'https://www.facebook.com/v2.8/dialog/oauth?client_id=' +
+        config.clientId + '&redirect_uri=' +
+        config.redirectURI + '&scope=email';
+    }
+    if (provider === 'google') {
+      window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=' +
+        config.clientId + '&redirect_uri=' +
+        config.redirectURI + '&scope=email%20profile';
+    }
   }
 
-  private _writeToDOM(apiKey: string, authorize: boolean) {
-    const linkedInScriptElement = window.document.createElement('script');
-    linkedInScriptElement.type = 'text/javascript';
-    const linkedInAPISrc = '//platform.linkedin.com/in.js';
-    linkedInScriptElement.src = linkedInAPISrc;
-    const linkedInAPIKey = `\napi_key: ${apiKey}`;
-    const linkedInAPIOnLoad = `\nonLoad: window.linkedInStateChangeRef`;
-    const linkedInAPIAuthorize = `\nauthorize: ${authorize}\n`;
-    const linkedInAPICfg = linkedInAPIKey + linkedInAPIOnLoad + linkedInAPIAuthorize;
-    linkedInScriptElement.innerHTML = linkedInAPICfg;
-    window.document.head.appendChild(linkedInScriptElement);
+  sendCodeToServer(params: TokenParams): Observable<any> {
+    return this._http.post(params.authEndpoint, params);
   }
-
 }
