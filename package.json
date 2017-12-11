@@ -1,0 +1,47 @@
+{
+  "_from": "ngx-auth-social",
+  "_id": "ngx-auth-social@2.0.0",
+  "_inBundle": false,
+  "_integrity": "sha512-vPIJuisgvla2Paq7gTm6D2keEPDY4ORSAkAbPSlEHc1dM+dL+GetFmPt6k9ThVddfuvJP25fvTnfD1JkuMVjZQ==",
+  "_location": "/ngx-auth-social",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "ngx-auth-social",
+    "name": "ngx-auth-social",
+    "escapedName": "ngx-auth-social",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/ngx-auth-social/-/ngx-auth-social-2.0.0.tgz",
+  "_shasum": "abaf47e602d793af9770788138aea4555a89b01e",
+  "_spec": "ngx-auth-social",
+  "_where": "/private/var/www/ang",
+  "author": {
+    "name": "Alex Solomko"
+  },
+  "bugs": {
+    "url": "https://github.com/Solomko2/angular-social-auth/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "This is a wrapper for the official Linkedin SDK, Google SDK and ngx-facebook plugin.",
+  "homepage": "https://github.com/Solomko2/angular-social-auth#readme",
+  "license": "ISC",
+  "main": "index.js",
+  "name": "ngx-auth-social",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Solomko2/angular-social-auth.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "2.0.0"
+}
