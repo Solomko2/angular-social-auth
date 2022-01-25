@@ -1,11 +1,10 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
-import {Subject} from 'rxjs/Subject';
-import 'rxjs/add/operator/distinctUntilChanged';
-import {ITokenParams} from './models/ITokenParams';
-import {HttpClient} from '@angular/common/http';
-import {ActivatedRoute} from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Subject, Observable } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
+import { ITokenParams } from './models/ITokenParams';
+
 
 class TokenParams {
   code: any;
@@ -25,18 +24,10 @@ class TokenParams {
 export class SocialService {
   private code: string;
 
-  /**
-   * emit data user
-   * @type {Subject}
-   */
   private socialSubject = new Subject();
-  public socialEventToken = this.socialSubject.asObservable().distinctUntilChanged();
+  public socialEventToken = this.socialSubject.asObservable()
+    .pipe(distinctUntilChanged());
 
-  /**
-   * link auth social
-   * @param provider {string}
-   * @param config {any}
-   */
   public authLink(provider: string, config: any): void {
 
     localStorage.setItem('authConfig', JSON.stringify(config));
